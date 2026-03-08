@@ -253,16 +253,17 @@ header h1 {
 /* Mobile Touch Controls */
 .mobile-controls {
     display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
     z-index: 1000;
 }
 
 /* Show on touch devices or small screens */
 @media (max-width: 768px) {
     .mobile-controls {
-        display: block !important;
+        display: flex !important;
+        justify-content: center;
     }
     
     .controls-hint {
@@ -273,34 +274,35 @@ header h1 {
 /* Also show on devices with touch capability */
 @media (pointer: coarse) {
     .mobile-controls {
-        display: block !important;
+        display: flex !important;
+        justify-content: center;
     }
 }
 
 .dpad {
     display: grid;
-    grid-template-columns: repeat(3, 70px);
-    grid-template-rows: repeat(3, 70px);
-    gap: 5px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 15px;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 12px;
+    border-radius: 18px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 .dpad-btn {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: linear-gradient(145deg, #3b82f6, #2563eb);
     color: white;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.1s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
