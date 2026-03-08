@@ -865,6 +865,7 @@ let game;
 window.addEventListener('load', () => {
     game = new Game();
     setupMobileControls();
+    makeDpadDraggable();
 });
 
 // Mobile Touch Controls
@@ -880,6 +881,7 @@ function setupMobileControls() {
         // Touch events
         button.addEventListener('touchstart', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             if (game && game.keys) {
                 game.keys[key] = true;
             }
@@ -887,6 +889,7 @@ function setupMobileControls() {
         
         button.addEventListener('touchend', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             if (game && game.keys) {
                 game.keys[key] = false;
             }
@@ -894,6 +897,7 @@ function setupMobileControls() {
         
         button.addEventListener('touchcancel', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             if (game && game.keys) {
                 game.keys[key] = false;
             }
@@ -902,6 +906,7 @@ function setupMobileControls() {
         // Mouse events for testing on desktop
         button.addEventListener('mousedown', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             if (game && game.keys) {
                 game.keys[key] = true;
             }
@@ -909,6 +914,7 @@ function setupMobileControls() {
         
         button.addEventListener('mouseup', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             if (game && game.keys) {
                 game.keys[key] = false;
             }
@@ -920,6 +926,88 @@ function setupMobileControls() {
             }
         });
     });
+}
+
+// Make D-Pad draggable
+function makeDpadDraggable() {
+    const dpad = document.getElementById('mobileControls');
+    if (!dpad) return;
+    
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+    
+    // Load saved position
+    const savedPos = localStorage.getItem('dpadPosition');
+    if (savedPos) {
+        const pos = JSON.parse(savedPos);
+        xOffset = pos.x;
+        yOffset = pos.y;
+        setTranslate(xOffset, yOffset, dpad);
+    }
+    
+    dpad.addEventListener('touchstart', dragStart, { passive: false });
+    dpad.addEventListener('touchend', dragEnd, { passive: false });
+    dpad.addEventListener('touchmove', drag, { passive: false });
+    
+    dpad.addEventListener('mousedown', dragStart);
+    dpad.addEventListener('mouseup', dragEnd);
+    dpad.addEventListener('mousemove', drag);
+    
+    function dragStart(e) {
+        // Only drag if touching the dpad container, not the buttons
+        if (e.target.classList.contains('dpad-btn')) return;
+        
+        if (e.type === 'touchstart') {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+        } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+        }
+        
+        isDragging = true;
+        dpad.style.opacity = '0.7';
+    }
+    
+    function dragEnd(e) {
+        if (!isDragging) return;
+        
+        initialX = currentX;
+        initialY = currentY;
+        isDragging = false;
+        dpad.style.opacity = '1';
+        
+        // Save position
+        localStorage.setItem('dpadPosition', JSON.stringify({ x: xOffset, y: yOffset }));
+    }
+    
+    function drag(e) {
+        if (!isDragging) return;
+        
+        e.preventDefault();
+        
+        if (e.type === 'touchmove') {
+            currentX = e.touches[0].clientX - initialX;
+            currentY = e.touches[0].clientY - initialY;
+        } else {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+        }
+        
+        xOffset = currentX;
+        yOffset = currentY;
+        
+        setTranslate(currentX, currentY, dpad);
+    }
+    
+    function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate(${xPos}px, ${yPos}px)`;
+    }
 }
 
 // Made with Bob

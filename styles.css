@@ -253,17 +253,18 @@ header h1 {
 /* Mobile Touch Controls */
 .mobile-controls {
     display: none;
-    width: 100%;
-    margin-top: 20px;
-    padding: 20px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     z-index: 1000;
+    cursor: move;
+    touch-action: none;
 }
 
 /* Show on touch devices or small screens */
 @media (max-width: 768px) {
     .mobile-controls {
-        display: flex !important;
-        justify-content: center;
+        display: block !important;
     }
     
     .controls-hint {
@@ -274,35 +275,39 @@ header h1 {
 /* Also show on devices with touch capability */
 @media (pointer: coarse) {
     .mobile-controls {
-        display: flex !important;
-        justify-content: center;
+        display: block !important;
     }
 }
 
 .dpad {
     display: grid;
-    grid-template-columns: repeat(3, 80px);
-    grid-template-rows: repeat(3, 80px);
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 12px;
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px);
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.2s;
+}
+
+.dpad:active {
+    opacity: 0.9;
 }
 
 .dpad-btn {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(145deg, #3b82f6, #2563eb);
-    color: white;
-    font-size: 32px;
+    border-radius: 10px;
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.6), rgba(37, 99, 235, 0.6));
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.1s;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
