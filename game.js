@@ -864,6 +864,62 @@ class SoundManager {
 let game;
 window.addEventListener('load', () => {
     game = new Game();
+    setupMobileControls();
 });
+
+// Mobile Touch Controls
+function setupMobileControls() {
+    const mobileControls = document.getElementById('mobileControls');
+    if (!mobileControls) return;
+    
+    const buttons = mobileControls.querySelectorAll('.dpad-btn[data-key]');
+    
+    buttons.forEach(button => {
+        const key = button.getAttribute('data-key');
+        
+        // Touch events
+        button.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (game && game.keys) {
+                game.keys[key] = true;
+            }
+        });
+        
+        button.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (game && game.keys) {
+                game.keys[key] = false;
+            }
+        });
+        
+        button.addEventListener('touchcancel', (e) => {
+            e.preventDefault();
+            if (game && game.keys) {
+                game.keys[key] = false;
+            }
+        });
+        
+        // Mouse events for testing on desktop
+        button.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            if (game && game.keys) {
+                game.keys[key] = true;
+            }
+        });
+        
+        button.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            if (game && game.keys) {
+                game.keys[key] = false;
+            }
+        });
+        
+        button.addEventListener('mouseleave', (e) => {
+            if (game && game.keys) {
+                game.keys[key] = false;
+            }
+        });
+    });
+}
 
 // Made with Bob
