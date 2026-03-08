@@ -1,0 +1,21 @@
+# Java compiled files
+bin/
+*.class
+*.jar
+*.war
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+.DS_Store
+
+# Java specific
+src/com/frogger/
+sounds/
+frogger_highscores.dat
+grogger_highscores.dat
+rename_file.sh
+
+# Keep only web version files for GitHub Pages
+# index.html, styles.css, game.js, README_WEB.md are tracked
